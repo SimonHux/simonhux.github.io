@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='并设置好旁路由'><title>Docker 安装 OpenWrt</title>
+
+<link rel='canonical' href='https://simonhux.com/p/docker-%E5%AE%89%E8%A3%85-openwrt/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='Docker 安装 OpenWrt'>
+<meta property='og:description' content='并设置好旁路由'>
+<meta property='og:url' content='https://simonhux.com/p/docker-%E5%AE%89%E8%A3%85-openwrt/'>
+<meta property='og:site_name' content='SimonHux Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Phicomm' /><meta property='article:published_time' content='2020-04-07T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2020-04-07T00:00:00&#43;00:00'/><meta property='og:image' content='https://simonhux.com/p/docker-%E5%AE%89%E8%A3%85-openwrt/bg.png' />
+<meta name="twitter:title" content="Docker 安装 OpenWrt">
+<meta name="twitter:description" content="并设置好旁路由"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://simonhux.com/p/docker-%E5%AE%89%E8%A3%85-openwrt/bg.png' />
+    <link rel="shortcut icon" href="favicon_32.ico" />
+
+    </head>
+    <body class="">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.body.dataset.scheme = 'dark';
+        } else {
+            document.body.dataset.scheme = 'light';
+        }
+    })();
+</script><div class="container main-container flex on-phone--column extended article-page with-toolbar">
+            <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            <figure class="site-avatar">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hucbc1a68a76acad496aa76d0a2e4fa40d_39277_300x0_resize_q75_box.jpeg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+
+                
+                    <span class="emoji">💫</span>
+                
+            </figure>
+        
+        <h1 class="site-name"><a href="https://simonhux.com/">SimonHux Blog</a></h1>
+        <h2 class="site-description">日拱一卒，功不唐捐</h2>
+    </header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/'>
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives'>
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/link'>
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Link</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search'>
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about'>
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>暗色模式</span>
+            </li>
+        
+    </ol>
+</aside>
+
+            <main class="main full-width">
+    <div id="article-toolbar">
+        <a href="https://simonhux.com/" class="back-home">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+            <span>Back</span>
+        </a>
+    </div>
+
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/docker-%E5%AE%89%E8%A3%85-openwrt/">
+                <img src="/p/docker-%E5%AE%89%E8%A3%85-openwrt/bg_hu75d2ea559479d9e6a1b565c1ad2d431f_100629_800x0_resize_box_2.png"
+                        srcset="/p/docker-%E5%AE%89%E8%A3%85-openwrt/bg_hu75d2ea559479d9e6a1b565c1ad2d431f_100629_800x0_resize_box_2.png 800w, /p/docker-%E5%AE%89%E8%A3%85-openwrt/bg_hu75d2ea559479d9e6a1b565c1ad2d431f_100629_1600x0_resize_box_2.png 1600w"
+                        width="800" 
+                        height="366" 
+                        loading="lazy"
+                        alt="Featured image of post Docker 安装 OpenWrt" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/phicomm/" >
+                Phicomm
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/docker-%E5%AE%89%E8%A3%85-openwrt/">Docker 安装 OpenWrt</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        并设置好旁路由
+    </h3>
+    <footer class="article-time">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <time class="article-time--published">Apr 07, 2020</time>
+    </footer></div>
+
+    
+</header>
+
+    
+
+    <section class="article-content">
+    <h2 id="前言">前言</h2>
+<p>斐讯N1装好了<a class="link" href="https://rainsimon.top/2020/04/05/%e6%96%90%e8%ae%af-N1-%e5%88%b7%e5%85%a5Armbian%e7%b3%bb%e7%bb%9f"  target="_blank" rel="noopener"
+    >Armbian和Docker</a>，接下来就要发挥Docker性能所在。在Docker里安装软路由系统 OpenWrt</p>
+<p>另外此篇文章也适合于主路由是TP-Link、磊科、水星等主流路由器用户</p>
+<h2 id="大体流程">大体流程</h2>
+<p>把大象放进冰箱需要几步？1.开冰箱、2.放大象、3.关冰箱</p>
+<p>把长颈鹿放进冰箱要几步？1.开冰箱、2.把大象从冰箱拿出来、3.把长颈鹿放进去、4.关冰箱</p>
+<p>部署Docker版OP要几步？ 1.导入op、2.开启网卡的混杂模式、3.载入pppoe模块、4.创建docker的虚拟网络、5.开启OpenWrt容器</p>
+<h2 id="安装openwrt">安装OpenWrt</h2>
+<h3 id="下载openwrt镜像">下载OpenWrt镜像</h3>
+<p>镜像：<a class="link" href="https://1drv.ms/u/s!AiptHolnUeGigjalhFQvW7vgErBT?e=e2hiYb"  target="_blank" rel="noopener"
+    >Armbian</a>，flippy大神版</p>
+<h3 id="导入openwrt文件">导入OpenWrt文件</h3>
+<p>登录armbian的ssh，把tar.gz后缀的镜像文件拖入到<code>root</code>目录下</p>
+<p>注意查看文件大小，如果不是0KB就拖入成功，如果拖入失败，可换另一个ssh工具拖入</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/openwrt/root.png" alt=""  /></p>
+<p><strong>请先看<code>附加说明与注意</code>再来操作以下五句命令，以免发生错误</strong></p>
+<h3 id="创建openwrt镜像">创建OpenWrt镜像</h3>
+<p>docker import openwrt-armvirt-64-default-rootfs.tar.gz openwrt:R9.1.20</p>
+<h3 id="开启网卡的混杂模式">开启网卡的混杂模式</h3>
+<p>ip link set eth0 promisc on</p>
+<h3 id="载入pppoe模块">载入pppoe模块</h3>
+<p>modprobe pppoe</p>
+<h3 id="创建docker的虚拟网络openwrt网络">创建docker的虚拟网络（OpenWrt网络）</h3>
+<p>docker network create -d macvlan &ndash;subnet=192.168.0.0/24 &ndash;gateway=192.168.0.1 -o parent=eth0 macnet</p>
+<h3 id="开启openwrt容器">开启OpenWrt容器</h3>
+<p>docker run &ndash;restart always -d &ndash;network macnet &ndash;privileged openwrt:R9.1.20 /sbin/init</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/openwrt/shell.png" alt=""  /></p>
+<h3 id="-附加说明与注意">👉 附加说明与注意</h3>
+<ul>
+<li>第一条命令解释：docker import+文件名称+镜像名称:标签，标签R9.1.11可自定义，可以改为版本号或者日期</li>
+<li>第四条命令：<code>subnet=192.168.0.0/24</code>和<code>gateway=192.168.0.1</code>第三位改为你的主路由，如你的主路由是192.168.123.0，那么这里的两个0改为你主路由的123</li>
+<li>第五条命令：<code>OpenWrt:R9.1.20</code>要与第一条语句后面<code>OpenWrt:R9.1.20</code>一致</li>
+<li>以后更换op版本时，<code>2、3、4</code>命令可不用重复执行，执行过一次即可，除非是重新刷机</li>
+</ul>
+<h2 id="设置openwrt">设置OpenWrt</h2>
+<p>登录<code>portainer</code>管理页面，点<code>container</code>找到你的OpenWrt容器(<code>Image</code>为<code>OpenWrt:R9.1.20</code>或者你设置的)，设置OpenWrt</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/openwrt/containers.png" alt=""  /></p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/openwrt/connect.png" alt=""  /></p>
+<h3 id="修改network设置">修改network设置</h3>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/openwrt/bash.png" alt=""  /></p>
+<ul>
+<li>
+<p>在bash界面输入<code>vi /etc/config/network</code>命令</p>
+</li>
+<li>
+<p>按<code>i</code>修改网关信息
+<img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/openwrt/ip.png" alt=""  /></p>
+</li>
+<li>
+<p>按图所示，修改好你进行<code>OpenWrt</code>ip地址与你的<code>主路由</code>ip地址</p>
+</li>
+<li>
+<p>改好后依次按返回键 :wq保存退出。注意别少了<code>冒号</code></p>
+</li>
+<li>
+<p>部署好后，点击<code>containers</code>勾选<code>OpenWrt</code>镜像点Restart重启OpenWrt</p>
+</li>
+<li>
+<p>直接输入你设置的ip地址就可登录</p>
+</li>
+<li>
+<p>用户名为<code>root</code>，密码为<code>password</code></p>
+</li>
+</ul>
+<h3 id="配置openwrt旁路由">配置OpenWrt旁路由</h3>
+<h4 id="为什么设置openwrt为旁路由而不是主路由">为什么设置OpenWrt为旁路由而不是主路由？</h4>
+<p>主路由</p>
+<ul>
+<li>若光猫负责拨号，就要把光猫由PPPoE拨号模式设成桥接模式bridge，同时要关闭lan的DHCP
+<ul>
+<li>因为同一个网内，只允许一个设备开启DHCP，DHCP相当于分配IP地址的功能，不可能同时由两台设备分配地址，否则会出现无法上网情况</li>
+</ul>
+</li>
+<li>光猫要改成桥接模式，并关闭DHCP服务
+<ul>
+<li>禁了光猫的DHCP后，电脑用网线连光猫无法登录进去光猫，以后想恢复光猫设置，就要长按光猫复位键！然后就可以电脑用网线连光猫</li>
+</ul>
+</li>
+<li>主路由接管DHCP服务</li>
+<li>如果操作（设置）错误，可能会影响他人正常上网</li>
+</ul>
+<p>旁路由</p>
+<ul>
+<li>不动光猫</li>
+<li>可接管DHCP，也可不接管DHCP</li>
+<li>不会更改原网络设备的设置</li>
+<li>随意折腾，不影响他人上网</li>
+</ul>
+<h4 id="操作步骤">操作步骤</h4>
+<ul>
+<li>
+<p>登录OpenWrt管理页，依次点击：网络—接口—LAN</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/openwrt/lan.png" alt=""  /></p>
+</li>
+<li>
+<p>找打基础设置—DHCP 服务器—<code>忽略此口</code></p>
+</li>
+<li>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/openwrt/dhcp.png" alt=""  /></p>
+<p>ipv6设置改成<code>停用</code></p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/openwrt/ipv6.png" alt=""  /></p>
+</li>
+<li>
+<p><code>保存</code>、<code>保存&amp;应用</code>，记得设置完后重启所有设备</p>
+</li>
+</ul>
+<h4 id="加自定义防火墙规则">加自定义防火墙规则</h4>
+<ul>
+<li>
+<p>网络—防火墙</p>
+</li>
+<li>
+<p>添加<code>iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE</code>，并重启防火墙</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/openwrt/nat.png" alt=""  /></p>
+</li>
+</ul>
+<h5 id="先解释一下这个规则">先解释一下这个规则</h5>
+<p>iptables 修改 NAT 表，使经过 eth0 的网卡的流量的源 IP 伪装成 eth0 的 IP，而且是动态伪装（直接读取 eth0 的 IP 地址）</p>
+<h5 id="为什么要这么做">为什么要这么做</h5>
+<ul>
+<li>N1 只配置了一个 LAN 口，WAN 口是没有使用</li>
+<li>不加的话，主路由会错误显示N1的IP，N1替谁转发了流量，主路由就会显示为谁的IP</li>
+<li>flippy帖子里有说，N1作为旁路由时，开启硬加速的情况下，可能会存在微信或者QQ图片打不开等问题，其中具体原因可能就在于N1没有做SNAT，导致回城不经过N1</li>
+<li>加上无害，反而可以解决一些奇奇怪怪的问题</li>
+</ul>
+<h2 id="04-09更换openwrt镜像一些修改记录">04-09更换OpenWrt镜像，一些修改记录</h2>
+<ul>
+<li>部分OpenWrt版本可能缺少以下两条，缺少的话就复制进去，192.168.0.1改成你主路由ip
+<ul>
+<li>option gateway &lsquo;192.168.0.1&rsquo;</li>
+<li>option dns &lsquo;192.168.0.1 114.114.114.114&rsquo;</li>
+<li>图示请参考修改网关信息</li>
+</ul>
+</li>
+<li>更新OpenWrt镜像或者更新，只需要在SSH里执行<code>创建OpenWrt镜像</code>和<code>开启OpenWrt容器</code>即可</li>
+</ul>
+
+</section>
+
+
+    
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/phicomm/">Phicomm</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>本文最终解释权归作者所有，如需转载请注明出处。</span>
+    </section>
+    <section class="article-views">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="2" />
+  <path d="M2 12l1.5 2a11 11 0 0 0 17 0l1.5 -2" />
+  <path d="M2 12l1.5 -2a11 11 0 0 1 17 0l1.5 2" />
+</svg>
+
+
+
+    <span id="busuanzi_value_page_pv"></span><span>&nbsp;&nbsp;views</span>
+    </section>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</footer>
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="has-image">
+    <a href="/p/%E8%BD%BB%E5%9E%8B-nas-openwrt-%E7%BB%84%E5%90%88/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E8%BD%BB%E5%9E%8B-nas-openwrt-%E7%BB%84%E5%90%88/bg.ebe5931f6ddd0151aeb1002ed9b2725b_hu12b0c03588f2744c08efb9492900fc2f_1694806_250x150_fill_box_smart1_2.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy" 
+                        data-key="" 
+                        data-hash="md5-6&#43;WTH23dAVGusQAu2bJyWw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">轻型 NAS &#43; OpenWrt 组合</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/p/openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F/">
+        
+        
+            <div class="article-image">
+                <img src="/p/openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F/bg.f745f06852d4fd7b1243dfa9ff0eb732_hub396a9b3c0ea0243d6f1a17688705654_317470_250x150_fill_box_smart1_2.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy" 
+                        data-key="" 
+                        data-hash="md5-90XwaFLU/XsSQ9&#43;p/w63Mg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">OpenWrt 旁路由模式</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/p/%E6%9C%80%E4%B8%8D%E6%AD%A3%E7%BB%8F%E7%9A%84%E7%9B%92%E5%AD%90-%E6%96%90%E8%AE%AFn1/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E6%9C%80%E4%B8%8D%E6%AD%A3%E7%BB%8F%E7%9A%84%E7%9B%92%E5%AD%90-%E6%96%90%E8%AE%AFn1/bg.fede0cdad8858ee020a5d55e911c5a8e_hu31f1c29c03de038982e80a34dde4a6d3_1085445_250x150_fill_box_smart1_2.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy" 
+                        data-key="" 
+                        data-hash="md5-/t4M2tiFjuAgpdVekRxajg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">最“不正经”的盒子 斐讯N1</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2021 SimonHux Blog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="2.0.1">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+            </main>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"
+    integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g=" crossorigin="anonymous"></script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

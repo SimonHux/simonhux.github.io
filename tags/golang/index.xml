@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Golang on SimonHux Blog</title>
+    <link>https://simonhux.com/tags/golang/</link>
+    <description>Recent content in Golang on SimonHux Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://simonhux.com/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>从零开始搭建 Go 语言开发环境</title>
+      <link>https://simonhux.com/p/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA-go-%E8%AF%AD%E8%A8%80%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</link>
+      <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://simonhux.com/p/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA-go-%E8%AF%AD%E8%A8%80%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</guid>
+      <description>开发环境 下载 下载地址 Go官网下载地址：https://golang.org/dl/
+Go官方镜像站（推荐）：https://golang.google.cn/dl/
+版本的选择 Windows 平台和 Mac 平台推荐下载可执行文件版，Linux 平台下载压缩文件版。
+安装 Windows 下安装 此安装实例以 64位 Win10系统安装 Go 1.15.1可执行文件版本为例。
+将上一步选好的安装包下载到本地。
+双击下载好的文件，然后按照下图的步骤安装即可。
+Linux 下安装 我们在版本选择页面选择并下载好go1.15.1.linux-amd64.tar.gz文件：
+1  curl -O https://studygolang.com/dl/golang/go1.15.linux-amd64.tar.gz   将下载好的文件解压到/usr/local目录下：
+1  sudo tar -C /usr/local -xzf go1.15.linux-amd64.tar.gz # 解压   配置环境变量： Linux下有两个文件可以配置环境变量
+其中/etc/profile是对所有用户生效的；$HOME/.profile是对当前用户生效的，根据自己的情况自行选择一个文件打开，添加如下两行代码，保存退出。
+1 2  export GOROOT=/usr/local/go export PATH=$PATH:$GOROOT/bin   修改/etc/profile后要重启生效，修改$HOME/.profile后使用source命令加载$HOME/.profile文件即可生效。 检查：
+1 2  ~ go version go version go1.15.1 linux/amd65   Mac 下安装 下载可执行文件版，直接点击下一步安装即可，默认会将go安装到/usr/local/go目录下。</description>
+    </item>
+    
+  </channel>
+</rss>

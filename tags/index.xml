@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on SimonHux Blog</title>
+    <link>https://simonhux.com/tags/</link>
+    <description>Recent content in Tags on SimonHux Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 31 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://simonhux.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Blog</title>
+      <link>https://simonhux.com/tags/blog/</link>
+      <pubDate>Wed, 31 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://simonhux.com/tags/blog/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Golang</title>
+      <link>https://simonhux.com/tags/golang/</link>
+      <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://simonhux.com/tags/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Phicomm</title>
+      <link>https://simonhux.com/tags/phicomm/</link>
+      <pubDate>Sun, 03 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://simonhux.com/tags/phicomm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Shell</title>
+      <link>https://simonhux.com/tags/shell/</link>
+      <pubDate>Wed, 01 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://simonhux.com/tags/shell/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

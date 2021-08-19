@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pages on SimonHux Blog</title>
+    <link>https://simonhux.com/page/</link>
+    <description>Recent content in Pages on SimonHux Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 28 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://simonhux.com/page/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About</title>
+      <link>https://simonhux.com/about/</link>
+      <pubDate>Sun, 28 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://simonhux.com/about/</guid>
+      <description>🧑🏻‍💻 About Me let me = undefined
+undefined 就有无限可能
+本科 CS 在读，后端开发，正在成为一名社畜。
+ keep hungry keep foolish
+ 🚶‍♂️ About Blog 2020年3月博客最初用 jekyll 搭建，发布在 GitHub Pages 上,网址为rainsimon.top
+后来域名过期，并且由于太忙没有去管理
+2021年3月，重新拾起博客，并由 Hugo搭建，迁移旧的博客文章，并开启评论系统。
+❤️ Sponsor 如果你觉得本博客中的内容有帮助到你，欢迎支持赞助我继续创作。</description>
+    </item>
+    
+    <item>
+      <title>Archives</title>
+      <link>https://simonhux.com/archives/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://simonhux.com/archives/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Links</title>
+      <link>https://simonhux.com/link/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://simonhux.com/link/</guid>
+      <description>🔗 Links    </description>
+    </item>
+    
+    <item>
+      <title>Search</title>
+      <link>https://simonhux.com/search/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://simonhux.com/search/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

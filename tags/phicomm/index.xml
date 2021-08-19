@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Phicomm on SimonHux Blog</title>
+    <link>https://simonhux.com/tags/phicomm/</link>
+    <description>Recent content in Phicomm on SimonHux Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 03 May 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://simonhux.com/tags/phicomm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>轻型 NAS &#43; OpenWrt 组合</title>
+      <link>https://simonhux.com/p/%E8%BD%BB%E5%9E%8B-nas-openwrt-%E7%BB%84%E5%90%88/</link>
+      <pubDate>Sun, 03 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://simonhux.com/p/%E8%BD%BB%E5%9E%8B-nas-openwrt-%E7%BB%84%E5%90%88/</guid>
+      <description>前言  如果愿意用隐私来交换便捷性或者效率的话，很多情况下他们是愿意这么做的。
+​	——百度·李彦宏
+ NAS全称 Network Attached Storage ，字面意思是：网络附加存储，说白话就是一台属于自己私人去中心化服务器，可以存储音乐、电影、照片等数据，可以做网盘，能做远程下载，能做影音服务器等等等你想让NAS做任何你想解决的方案。相对于家用主机①更低的功耗②24小时待机，两个特点。成熟的NAS产品像群晖、威联通可能二三十瓦功耗，低功耗硬件DIY黑群晖30瓦到40瓦不等。如果你对瓦数没什么概念，电视机顶盒的功耗一般15瓦左右，笔记本大约60 瓦左右。低功耗主要还是在省电方面实在。
+NAS 最大的特性是去中心化，我们用NAS寻找解决方案的目的是为了掌控自己所产生的信息化数据，对数据拥有绝对的处决权，而不是追求数据的安全性。
+不好理解举个例子：你买一辆电动车，你可以任意处置它。你想明天骑明天就一定能骑，没有人能约束你。但你没法保证今晚窃·格瓦拉他不会来光顾你家院子，所以你对安全性没法保障。但是没了处决权，比如共享单车运营商只要明天他不然你骑，你就百分之百骑不了。
+再回到安全，信息化安全它是一个相对概念。任何数据只要信息化都百分百不安全，举个例子，密码管理器LastPass，把所有密码都放在服务端。好比把全部鸡蛋放在一个篮子里。去中心化考虑的是处置权，而不是安全性。此处恰好引用百度·李彦宏，在2018年3月中国高层发展论坛所讲述的那句话。
+此篇文章并非是 UNRAID、OpenMediaVault（OMV） 、FreeNAS等 NAS 系统，而是在 Linux 下一套可行性解决方案，其中斐讯 N1 满载6瓦左右，我家云满载10瓦左右
+关于 关于配置 关于固件选择 N1：Armbian 我家云：OpenWrt
+“反向操作”？并没有。从配置上看，我家云更适合组 NAS（OMV），挂硬盘，速率也高。但众所周知，我家云也叫掉盘云。硬盘用着用着会突然掉线，系统识别不到硬盘。掉盘是需要通过硬改才可以解决，参考F大：我家云硬盘供电的三个BUG（掉盘的主要元凶）如是是用 FTP 进行文件传输发热量大且噪音也是非常大。如果是拆掉外壳，可体验风扇噪音最大化。
+N1，安装过几次 OMV，参考书生86，Armbian 成功安装 OMV5 方法，但都失败了。退而求其次，选择 Armbian 系统安装 Docker 容器。 N1 也是散热问题，在某些环境下 CPU 最高达到48℃，但相比我家云没有噪音。
+N1是在同时跑5个 Docker 容器 47℃，而我家云只跑了一个 OpenWrt 就 46℃
+斐讯 N1 篇 镜像：Armbian_20.02.0_Aml-s9xxx_buster_5.4.28-amlogic-flippy-32+.img
+Docker：Portainer、File Browser、Aria2、Nginx
+移动硬盘：斐讯 H1 外壳+ HTS725050A7E630 500G
+N1刷入 armbian 和安装 Docker 不再此赘述，详细请查看最“不正经”的盒子斐讯 N1</description>
+    </item>
+    
+    <item>
+      <title>OpenWrt 旁路由模式</title>
+      <link>https://simonhux.com/p/openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Wed, 08 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://simonhux.com/p/openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F/</guid>
+      <description>前言 在Docker安装OpenWrt文中只是粗略提到旁路由设置，并没有深入探讨OpenWrt旁路由是如何进行设置。此文以四种方案去探讨旁路由模式与分析，祝君玩的开心
+总体介绍 下文【旁路由】代指旁路由设备，如N1，PI
+新手入手建议: 方案1 &amp;gt; 方案2
+根据自己网络需求，选择适合的方案。
+同时先以方案1为基础，逐步熟悉与学习 旁路由设置。避免一下子设置全面崩溃。
+方案1 :(新手建议) 个体设备，通过设置 【旁路由】 为网关， 独自通过 【旁路由】 上网
+ 应用场景  个别PC﹑个别手机需要通过 【旁路由】 上网，其他设备不需要   优点  学习简单，折腾旁路由时，不影响其他人上网 私密性，能够规限 特定设备以旁路由模式上网   缺点  面对多设备，每个设备都需单独设置    方案2 :(不动光猫设置方法) 【旁路由】 接上路由后， 【旁路由】强制接管 dhcp，主路由不需设置ip
+当拔除 【旁路由】 并重启路由后，主路由接管重新dhcp
+ 应用场景  家中所有设备都有需要 (包括有线/Wifi) ，访客手机通过 Wifi 亦可以   优点  学习相较容易，不会更改原网络设备的设置 适应性强 ， 能够不动光猫﹑路由器下设置成功 全局性， 旁路由强制接管DHCP下，内网设备都以旁路由模式上网 更换模式容易，拔除旁路由并重启路由后，内网设备恢复原来网络模式   缺点  相对方案一，需要更多学习时间。 有些主路由强势不让接管    具体教程 方案1 (新手建议)  N1刷机后，在网络—接口—LAN处修改  协议选择静态地址 IPV4填入与主路由相同网段（不冲突即可，这个地址就是进入OpenWrt管理界面地址） 网关填写成主路由IP DNS填写成主路由IP 底部DHCP服务器勾选忽略此接口 IPV6设置有选项的地方改成停用 其他默认并保存，保存&amp;amp;应用    需要连接N1使用的设备IP填写成主路由相同网段（不冲突即可），网关和DNS填写成N1的IP即可，同理DNS可以填写多个  示例：       方案2 (不动光猫设置方法) 示例：</description>
+    </item>
+    
+    <item>
+      <title>Docker 安装 OpenWrt</title>
+      <link>https://simonhux.com/p/docker-%E5%AE%89%E8%A3%85-openwrt/</link>
+      <pubDate>Tue, 07 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://simonhux.com/p/docker-%E5%AE%89%E8%A3%85-openwrt/</guid>
+      <description>前言 斐讯N1装好了Armbian和Docker，接下来就要发挥Docker性能所在。在Docker里安装软路由系统 OpenWrt
+另外此篇文章也适合于主路由是TP-Link、磊科、水星等主流路由器用户
+大体流程 把大象放进冰箱需要几步？1.开冰箱、2.放大象、3.关冰箱
+把长颈鹿放进冰箱要几步？1.开冰箱、2.把大象从冰箱拿出来、3.把长颈鹿放进去、4.关冰箱
+部署Docker版OP要几步？ 1.导入op、2.开启网卡的混杂模式、3.载入pppoe模块、4.创建docker的虚拟网络、5.开启OpenWrt容器
+安装OpenWrt 下载OpenWrt镜像 镜像：Armbian，flippy大神版
+导入OpenWrt文件 登录armbian的ssh，把tar.gz后缀的镜像文件拖入到root目录下
+注意查看文件大小，如果不是0KB就拖入成功，如果拖入失败，可换另一个ssh工具拖入
+请先看附加说明与注意再来操作以下五句命令，以免发生错误
+创建OpenWrt镜像 docker import openwrt-armvirt-64-default-rootfs.tar.gz openwrt:R9.1.20
+开启网卡的混杂模式 ip link set eth0 promisc on
+载入pppoe模块 modprobe pppoe
+创建docker的虚拟网络（OpenWrt网络） docker network create -d macvlan &amp;ndash;subnet=192.168.0.0/24 &amp;ndash;gateway=192.168.0.1 -o parent=eth0 macnet
+开启OpenWrt容器 docker run &amp;ndash;restart always -d &amp;ndash;network macnet &amp;ndash;privileged openwrt:R9.1.20 /sbin/init
+👉 附加说明与注意  第一条命令解释：docker import+文件名称+镜像名称:标签，标签R9.1.11可自定义，可以改为版本号或者日期 第四条命令：subnet=192.168.0.0/24和gateway=192.168.0.1第三位改为你的主路由，如你的主路由是192.168.123.0，那么这里的两个0改为你主路由的123 第五条命令：OpenWrt:R9.1.20要与第一条语句后面OpenWrt:R9.1.20一致 以后更换op版本时，2、3、4命令可不用重复执行，执行过一次即可，除非是重新刷机  设置OpenWrt 登录portainer管理页面，点container找到你的OpenWrt容器(Image为OpenWrt:R9.1.20或者你设置的)，设置OpenWrt
+修改network设置   在bash界面输入vi /etc/config/network命令
+  按i修改网关信息   按图所示，修改好你进行OpenWrtip地址与你的主路由ip地址</description>
+    </item>
+    
+    <item>
+      <title>最“不正经”的盒子 斐讯N1</title>
+      <link>https://simonhux.com/p/%E6%9C%80%E4%B8%8D%E6%AD%A3%E7%BB%8F%E7%9A%84%E7%9B%92%E5%AD%90-%E6%96%90%E8%AE%AFn1/</link>
+      <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://simonhux.com/p/%E6%9C%80%E4%B8%8D%E6%AD%A3%E7%BB%8F%E7%9A%84%E7%9B%92%E5%AD%90-%E6%96%90%E8%AE%AFn1/</guid>
+      <description>前言 斐讯N1面世时是以家庭NAS系统和矿机的产品出现的，结果由于NAS软件性能弱，挖矿又因为一些原因服务挂掉，导致一度沦为吃灰的垃圾。 而之后在大神webpad破解了bootloader之后，N1可以刷机了，这样就摆脱了之前没有服务的NAS系统，可玩性和自由性大大增加。
+monokind大神通过绕过N1的加密增加了对CoreELEC的支持，CoreELEC的轻便化多媒体方案，让N1摇身一变成为一台专门的蓝光视频播放器，不光可以有海报墙和自动字幕匹配，还可以安装youtube（油管）和netflix（奈飞）插件，直接播放这两个平台的视频。
+再之后荒野无灯大神的小钢炮系统、万能游戏机EmuELEC系统、全功能的Armbian Linux系统、flippy大神编译的openwrt接踵而来。
+附一张斐讯N1参数 N1使用晶晨Amlogic S905D为主芯片。
+S905D芯片属于S905系列的最高阶芯片，采用ARM Cortex-A53架构，四核 1.5GHz的CPU
+GPU为5核ARM Mali-450，支持4K@60fps H265/VP9 10bit硬件解码，支持HDR10和HLG HDR。
+2G RAM，8G ROM，支持千兆有线和5G无线
+准备工作 工欲善其事，必先利其器
+硬件装备  N1 电脑 路由器 U盘（TF卡+读卡器8G以上） 网线 键盘 HDMI线、HDMI显示器（如没有HDMI显示器可用VGA转HDMI线进行转接）  软件准备  镜像：Armbian，flippy大神版 写盘工具：BalenaEtcher SSH工具：FinalShell  降级 如已把armbian或者openwrt 或者小钢炮或者coreecle刷入N1的EMMC，这种情况无需降级
+如果是新的N1未经任何操作，请先降级处理
+降级请参考：webpad降级教程或者三千问N1降级教程
+制作 Armbian 的U盘系统 把 U 盘插到电脑，把下载好的 Armbian 镜像解压，把img文件拖入Etcher中，选择好U盘，点击“Flash” 即可
+制作过程中出现的错误，格式化一律关闭取消
+启动 Armbian U盘系统  拔掉电源 插上网线 插上HDMI线 插上U盘 插上键盘  👉 注意：U盘一定要插到靠近HDMI一侧的U口
+插上电源进入线刷模式
+启动 这种情况已经是正常启动
+初次登录系统，输入账号：root回车，输入密码1234回车
+出现这个命令行是需要改一下密码，再输入一遍现在的密码1234回车</description>
+    </item>
+    
+  </channel>
+</rss>

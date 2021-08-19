@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='刷入Armbian并安装Docker'><title>最“不正经”的盒子 斐讯N1</title>
+
+<link rel='canonical' href='https://simonhux.com/p/%E6%9C%80%E4%B8%8D%E6%AD%A3%E7%BB%8F%E7%9A%84%E7%9B%92%E5%AD%90-%E6%96%90%E8%AE%AFn1/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='最“不正经”的盒子 斐讯N1'>
+<meta property='og:description' content='刷入Armbian并安装Docker'>
+<meta property='og:url' content='https://simonhux.com/p/%E6%9C%80%E4%B8%8D%E6%AD%A3%E7%BB%8F%E7%9A%84%E7%9B%92%E5%AD%90-%E6%96%90%E8%AE%AFn1/'>
+<meta property='og:site_name' content='SimonHux Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Phicomm' /><meta property='article:published_time' content='2020-04-05T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2020-04-05T00:00:00&#43;00:00'/><meta property='og:image' content='https://simonhux.com/p/%E6%9C%80%E4%B8%8D%E6%AD%A3%E7%BB%8F%E7%9A%84%E7%9B%92%E5%AD%90-%E6%96%90%E8%AE%AFn1/bg.png' />
+<meta name="twitter:title" content="最“不正经”的盒子 斐讯N1">
+<meta name="twitter:description" content="刷入Armbian并安装Docker"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://simonhux.com/p/%E6%9C%80%E4%B8%8D%E6%AD%A3%E7%BB%8F%E7%9A%84%E7%9B%92%E5%AD%90-%E6%96%90%E8%AE%AFn1/bg.png' />
+    <link rel="shortcut icon" href="favicon_32.ico" />
+
+    </head>
+    <body class="">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.body.dataset.scheme = 'dark';
+        } else {
+            document.body.dataset.scheme = 'light';
+        }
+    })();
+</script><div class="container main-container flex on-phone--column extended article-page with-toolbar">
+            <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            <figure class="site-avatar">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hucbc1a68a76acad496aa76d0a2e4fa40d_39277_300x0_resize_q75_box.jpeg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+
+                
+                    <span class="emoji">💫</span>
+                
+            </figure>
+        
+        <h1 class="site-name"><a href="https://simonhux.com/">SimonHux Blog</a></h1>
+        <h2 class="site-description">日拱一卒，功不唐捐</h2>
+    </header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/'>
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives'>
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/link'>
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Link</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search'>
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about'>
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>暗色模式</span>
+            </li>
+        
+    </ol>
+</aside>
+
+            <main class="main full-width">
+    <div id="article-toolbar">
+        <a href="https://simonhux.com/" class="back-home">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+            <span>Back</span>
+        </a>
+    </div>
+
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E6%9C%80%E4%B8%8D%E6%AD%A3%E7%BB%8F%E7%9A%84%E7%9B%92%E5%AD%90-%E6%96%90%E8%AE%AFn1/">
+                <img src="/p/%E6%9C%80%E4%B8%8D%E6%AD%A3%E7%BB%8F%E7%9A%84%E7%9B%92%E5%AD%90-%E6%96%90%E8%AE%AFn1/bg_hu31f1c29c03de038982e80a34dde4a6d3_1085445_800x0_resize_box_2.png"
+                        srcset="/p/%E6%9C%80%E4%B8%8D%E6%AD%A3%E7%BB%8F%E7%9A%84%E7%9B%92%E5%AD%90-%E6%96%90%E8%AE%AFn1/bg_hu31f1c29c03de038982e80a34dde4a6d3_1085445_800x0_resize_box_2.png 800w, /p/%E6%9C%80%E4%B8%8D%E6%AD%A3%E7%BB%8F%E7%9A%84%E7%9B%92%E5%AD%90-%E6%96%90%E8%AE%AFn1/bg_hu31f1c29c03de038982e80a34dde4a6d3_1085445_1600x0_resize_box_2.png 1600w"
+                        width="800" 
+                        height="380" 
+                        loading="lazy"
+                        alt="Featured image of post 最“不正经”的盒子 斐讯N1" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/phicomm/" >
+                Phicomm
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/%E6%9C%80%E4%B8%8D%E6%AD%A3%E7%BB%8F%E7%9A%84%E7%9B%92%E5%AD%90-%E6%96%90%E8%AE%AFn1/">最“不正经”的盒子 斐讯N1</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        刷入Armbian并安装Docker
+    </h3>
+    <footer class="article-time">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <time class="article-time--published">Apr 05, 2020</time>
+    </footer></div>
+
+    
+</header>
+
+    
+
+    <section class="article-content">
+    <h2 id="前言">前言</h2>
+<p>斐讯N1面世时是以家庭NAS系统和矿机的产品出现的，结果由于NAS软件性能弱，挖矿又因为一些原因服务挂掉，导致一度沦为吃灰的垃圾。
+而之后在大神webpad破解了bootloader之后，N1可以刷机了，这样就摆脱了之前没有服务的NAS系统，可玩性和自由性大大增加。</p>
+<p>monokind大神通过绕过N1的加密增加了对CoreELEC的支持，CoreELEC的轻便化多媒体方案，让N1摇身一变成为一台专门的蓝光视频播放器，不光可以有海报墙和自动字幕匹配，还可以安装youtube（油管）和netflix（奈飞）插件，直接播放这两个平台的视频。</p>
+<p>再之后荒野无灯大神的小钢炮系统、万能游戏机EmuELEC系统、全功能的Armbian Linux系统、flippy大神编译的openwrt接踵而来。</p>
+<p>附一张斐讯N1参数
+<img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/N1/can.png" alt=""  /></p>
+<p>N1使用晶晨Amlogic S905D为主芯片。</p>
+<p>S905D芯片属于S905系列的最高阶芯片，采用ARM Cortex-A53架构，四核 1.5GHz的CPU</p>
+<p>GPU为5核ARM Mali-450，支持4K@60fps H265/VP9 10bit硬件解码，支持HDR10和HLG HDR。</p>
+<p>2G RAM，8G ROM，支持千兆有线和5G无线</p>
+<h2 id="准备工作">准备工作</h2>
+<p>工欲善其事，必先利其器</p>
+<h3 id="硬件装备">硬件装备</h3>
+<ul>
+<li>N1</li>
+<li>电脑</li>
+<li>路由器</li>
+<li>U盘（TF卡+读卡器8G以上）</li>
+<li>网线</li>
+<li>键盘</li>
+<li>HDMI线、HDMI显示器（如没有HDMI显示器可用VGA转HDMI线进行转接）</li>
+</ul>
+<h3 id="软件准备">软件准备</h3>
+<ul>
+<li>镜像：<a class="link" href="https://1drv.ms/u/s!AiptHolnUeGigjalhFQvW7vgErBT?e=e2hiYb"  target="_blank" rel="noopener"
+    >Armbian</a>，flippy大神版</li>
+<li>写盘工具：<a class="link" href="https://www.balena.io/etcher/"  target="_blank" rel="noopener"
+    >BalenaEtcher</a></li>
+<li>SSH工具：<a class="link" href="http://www.hostbuf.com/t/988.html"  target="_blank" rel="noopener"
+    >FinalShell</a></li>
+</ul>
+<h2 id="降级">降级</h2>
+<p>如已把armbian或者openwrt 或者小钢炮或者coreecle刷入N1的EMMC，这种情况无需降级</p>
+<p>如果是新的N1未经任何操作，请先降级处理</p>
+<p>降级请参考：<a class="link" href="https://www.right.com.cn/forum/thread-340279-1-1.html"  target="_blank" rel="noopener"
+    > webpad降级教程</a>或者<a class="link" href="https://github.com/real-pin1group/3000web/wiki/teach_n1#N1%E6%95%99%E7%A8%8B-%E9%99%8D%E7%BA%A7-%E6%89%93%E5%BC%80U%E7%9B%98%E5%90%AF%E5%8A%A8%E5%91%BD%E4%BB%A4"  target="_blank" rel="noopener"
+    >三千问N1降级教程</a></p>
+<h2 id="制作-armbian-的u盘系统">制作 Armbian 的U盘系统</h2>
+<p>把 U 盘插到电脑，把下载好的 Armbian 镜像解压，把img文件拖入Etcher中，选择好U盘，点击“Flash” 即可</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/N1/img.png" alt=""  /></p>
+<p>制作过程中出现的错误，格式化一律关闭取消</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/N1/Validating.png" alt=""  /></p>
+<h3 id="启动-armbian-u盘系统">启动 Armbian U盘系统</h3>
+<ul>
+<li>拔掉电源</li>
+<li>插上网线</li>
+<li>插上HDMI线</li>
+<li>插上U盘</li>
+<li>插上键盘</li>
+</ul>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/N1/N1.png" alt=""  /></p>
+<p>👉 注意：U盘一定要插到靠近HDMI一侧的U口</p>
+<p>插上电源进入线刷模式</p>
+<h3 id="启动">启动</h3>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/N1/starting.png" alt=""  /></p>
+<p>这种情况已经是正常启动</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/N1/login.png" alt=""  /></p>
+<p>初次登录系统，输入账号：<code>root</code>回车，输入密码<code>1234</code>回车</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/N1/pass.png" alt=""  /></p>
+<p>出现这个命令行是需要改一下密码，再输入一遍现在的密码<code>1234</code>回车</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/N1/new.png" alt=""  /></p>
+<p>然后输入你自己定义的密码，自己记住就行</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/N1/ret.png" alt=""  /></p>
+<p>再输入一遍新密码</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/N1/ip.png" alt=""  /></p>
+<p>当出现这个界面时，ip要记录一下，等下要用SSH工具进行连接</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/N1/forname.png" alt=""  /></p>
+<p>出现需要新建用户时，按<code>Ctrl+c</code>,再按<code>r</code>键重登</p>
+<h3 id="ssh-连接-n1">SSH 连接 N1</h3>
+<ul>
+<li>打开FinalShell</li>
+<li>新建SSH连接</li>
+<li>输入主机ip，用户名和密码</li>
+<li><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/N1/ssh.png" alt=""  /></li>
+</ul>
+<h2 id="写入-emmc-闪存">写入 EMMC 闪存</h2>
+<p>在命令行输入<code>/root/install-aml.sh</code></p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/N1/emmc.png" alt=""  /></p>
+<p>耐心等待，然后显示<code>emmc complete</code>即为刷入emmc成功，执行poweroff关机，最后拔U盘重新开机</p>
+<h2 id="更新软件列表安装所有常用包">更新软件列表、安装所有常用包</h2>
+<p>F大的无需更换国内源，只需执行
+<code>apt-get update</code></p>
+<p>安装所有常用包
+<code>apt install ipset tcpdump pppoe pppoeconf net-tools git dnsmasq cifs-utils tcptraceroute iftop telnet -y</code></p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/N1/apt.png" alt=""  /></p>
+<h2 id="安装docker">安装Docker</h2>
+<ul>
+<li>
+<p>执行</p>
+<ul>
+<li><code>curl -fsSL https://get.docker.com -o get-docker.sh</code></li>
+<li><code>sh get-docker.sh --mirror Aliyun</code></li>
+</ul>
+</li>
+</ul>
+<p>安装需要一段时间，耐心等待，不要进行其他操作</p>
+<p>出现下图表示成功安装docker</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/N1/docker.png" alt=""  /></p>
+<ul>
+<li>
+<p>配置docker镜像加速</p>
+<p>在FinalShell依次找到<code>etc/docker/daemon.json</code>文件</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/N1/json.png" alt=""  /></p>
+<p>右键文本编辑器编辑以下内容，保存</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript">{
+ <span style="color:#f1fa8c">&#34;registry-mirrors&#34;</span><span style="color:#ff79c6">:</span> [<span style="color:#f1fa8c">&#34;http://hub-mirror.c.163.com&#34;</span>,<span style="color:#f1fa8c">&#34;https://docker.mirrors.ustc.edu.cn&#34;</span>,<span style="color:#f1fa8c">&#34;https://docker.mirrors.ustc.edu.cn&#34;</span>]
+}
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript">其它中国区Docker 镜像加速，更换里面的网址即可
+
+Docker中国区官方镜像
+https<span style="color:#ff79c6">:</span><span style="color:#6272a4">//registry.docker-cn.com
+</span><span style="color:#6272a4"></span>
+daocloud镜像站
+http<span style="color:#ff79c6">:</span><span style="color:#6272a4">//f1361db2.m.daocloud.io
+</span><span style="color:#6272a4"></span>
+七牛云加速器
+https<span style="color:#ff79c6">:</span><span style="color:#6272a4">//reg-mirror.qiniu.com
+</span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<p>执行命令：<code>systemctl daemon-reload</code>和<code>systemctl restart docker</code></p>
+<p>重启 Docker 以使配置生效：<code>service docker restart</code></p>
+<h3 id="安装docker图形化管理面板portainer">安装Docker图形化管理面板：Portainer</h3>
+<ul>
+<li>
+<p>执行</p>
+<ul>
+<li><code>docker volume create portainer_data</code></li>
+<li><code>docker run -d -p 9000:9000 --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer:linux-arm64</code></li>
+</ul>
+</li>
+<li>
+<p>在浏览器地址栏输入 armbian 的 ip:9000（ip就是SSH显示的ip）</p>
+</li>
+<li>
+<p>正常进入后会弹出新建账户三行的窗口，密码要8位数的。</p>
+<p>然后选择local，点connect，点击containers，如果提示错误，右边无看到有容器，就<code>reboot</code>重启</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/N1/containers.png" alt=""  /></p>
+</li>
+<li>
+<p>再次在网页浏览器输入armbian的ip:9000登录Portainer，如是以下图所示，则Portainer容器部署成功</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/N1/local.png" alt=""  /></p>
+</li>
+</ul>
+<h3 id="完整移除容器方法">完整移除容器方法</h3>
+<p>以后若要完整卸载容器</p>
+<ul>
+<li>先勾选中容器，然后点<code>Kill</code>，再点<code>Remove</code></li>
+<li>若弹出<code>Automatically remove non-persistent volumes</code>窗口也要勾选</li>
+<li>在<code>lmages</code>显示<code>unused</code>未使用的镜像也一样删除</li>
+</ul>
+<h2 id="04-06-刷入armbian-577一些修改记录">04-06 刷入Armbian 5.77，一些修改记录</h2>
+<h3 id="镜像">镜像</h3>
+<p><code>Armbian_5.77_Aml-s905_Ubuntu_bionic_default_5.0.2_20190401.img</code></p>
+<h3 id="修改dtb配置">修改dtb配置</h3>
+<ul>
+<li>把下载好的<code>meson-gxl-s905d-phicomm-n1-xiangsm.dtb</code>文件重命名为<code>meson-gxl-s905d-p230.dtb</code>复制到U盘的dtb文件夹</li>
+<li>把U盘的uEnv.ini文件的dtb路径替换为<code>dtb_name=/dtb/meson-gxl-s905d-p230.dtb</code></li>
+</ul>
+<h3 id="安装至emmc">安装至EMMC</h3>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">nand-sata-install
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="替换镜像源">替换镜像源</h3>
+<ul>
+<li>
+<p><code>armbian-config</code>—<code>Personal</code>—<code>Mirror</code></p>
+</li>
+<li>
+<p>或者<code>vim /etc/apt/sources.list</code></p>
+</li>
+<li>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ bionic main restricted universe multiverse
+<span style="color:#6272a4">#deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ bionic main restricted universe multiverse</span>
+
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ bionic-security main restricted universe multiverse
+<span style="color:#6272a4">#deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ bionic-security main restricted universe multiverse</span>
+
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ bionic-updates main restricted universe multiverse
+<span style="color:#6272a4">#deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ bionic-updates main restricted universe multiverse</span>
+
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ bionic-backports main restricted universe multiverse
+<span style="color:#6272a4">#deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ bionic-backports main restricted universe multiverse</span>
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>更新和升级软件包</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">apt-get update
+apt-get upgrade
+</code></pre></td></tr></table>
+</div>
+</div><p>在实际操作过程中，可能由于某个软件包的更新导致文件系统变为只读状态，此时<code>reboot</code>重启后重新更新就可</p>
+</li>
+</ul>
+<h3 id="设置时区为北京时间">设置时区为北京时间</h3>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#8be9fd;font-style:italic">echo</span> <span style="color:#f1fa8c">&#34;Asia/Shanghai&#34;</span> &gt; /etc/timezone
+</code></pre></td></tr></table>
+</div>
+</div><p>执行 date -R 查看时间是否正确</p>
+<h3 id="删除默认-dns">删除默认 DNS</h3>
+<p>我希望N1能使用上级路由器提供的DNS</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rm /etc/resolvconf/resolv.conf.d/head <span style="color:#ff79c6">&amp;&amp;</span> touch /etc/resolvconf/resolv.conf.d/head
+</code></pre></td></tr></table>
+</div>
+</div><p>在重启系统后，执行 cat /etc/resolv.conf ，查看返回结果是否为你路由器的 DNS，如果是，则表示删除成功，如果不是，则再执行一次删除命令。</p>
+<h3 id="开启-bbr">开启 BBR</h3>
+<p>linux-5.0.2 默认用 reno ，需要设置其启用 bbr 。执行以下命令：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8be9fd;font-style:italic">echo</span> <span style="color:#f1fa8c">&#34;net.core.default_qdisc=fq&#34;</span> &gt;&gt; /etc/sysctl.conf
+<span style="color:#8be9fd;font-style:italic">echo</span> <span style="color:#f1fa8c">&#34;net.ipv4.tcp_congestion_control=bbr&#34;</span> &gt;&gt; /etc/sysctl.conf
+sysctl -p
+</code></pre></td></tr></table>
+</div>
+</div><p>通过以下命令检查 BBR 是否启动：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sysctl net.ipv4.tcp_available_congestion_control
+<span style="color:#6272a4"># 返回值应为 net.ipv4.tcp_available_congestion_control = reno cubic bbr</span>
+
+sysctl net.ipv4.tcp_congestion_control
+<span style="color:#6272a4"># 返回值应为 net.ipv4.tcp_congestion_control = bbr</span>
+
+sysctl net.core.default_qdisc
+<span style="color:#6272a4"># 返回值应为 net.core.default_qdisc = fq</span>
+
+lsmod | grep bbr
+<span style="color:#6272a4"># 返回值应包含 tcp_bbr 模块</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="安装docker-1">安装Docker</h3>
+<p>使用Azure中国的源，无需额外的配置</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh --mirror AzureChinaCloud
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="安装portainer">安装Portainer</h3>
+<p>使Portainer自启要在部署命令加一段<code>restart=always</code></p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker volume create portainer_data
+
+docker run -d -p 9000:9000 --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer:linux-arm64
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="04-07使用ddbr恢复官改系统">04-07使用ddbr恢复官改系统</h2>
+<p>N1把Armbian系统4.18+的内核刷入eMMC后会改变分区，会改变MAC地址，无法再通过U盘重新覆盖安装回到其它版本，也无法再直接刷回盒子的系统</p>
+<p>这个问题的解决方法两种</p>
+<ul>
+<li>一种是通过ddbr恢复分区备份</li>
+<li>另一种是线刷<a class="link" href="https://rainsimon.top/2020/04/18/%E6%96%90%E8%AE%AFN1%E6%95%91%E7%A0%96%E5%A4%A7%E6%B3%95/"  target="_blank" rel="noopener"
+    >参考斐讯N1救砖大法</a></li>
+</ul>
+<p>这里采用前者</p>
+<p><strong>网盘里有原版系统ddbr备份包</strong></p>
+<ul>
+<li>
+<p>首先按照制作U盘系统的步骤，制作一个能够从U盘正常启动的armbian系统</p>
+<ul>
+<li>注意系统尽量选择3.x内核的系统，4.x部分需要打dtb网络补丁也可能无法挂载EMMC</li>
+<li>经过证实Armbian_flippy大神版可以正常刷入，不会出现无法挂载EMMC</li>
+</ul>
+</li>
+<li>
+<p>ssh进入后系统后执行指令</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ddbr
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>输入<code>b</code>（backup），在进度条开始后即可<code>Ctrl+C</code>取消。这样可以获取到ddbr备份的文件的名称（不同版本的Armbian备份出来的包名有不同）</p>
+</li>
+<li>
+<p><code>reboot</code>重启，进入/ddbr目录，可以看到一个*-emmc.img.gz文件，将它的文件名复制下来然后删除该文件。把从<code>网盘</code>下载的原版系统ddbr包上传到该目录，上传完成后把文件名改成刚才复制的文件名。</p>
+</li>
+<li>
+<p>输入<code>ddbr</code>指令，这回键入<code>r</code>（restore），它会询问你是否使用了压缩（DID YOU USED COMPRESSION），选择<code>y</code>即可</p>
+</li>
+<li>
+<p>成功后直接键入</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">poweroff
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>拔电拔U盘重启，然后一切就都回到解放前了</p>
+</li>
+</ul>
+<p>重启和关机不要直接拔电源，用<code>reboot </code>、<code>poweroff</code>命令</p>
+<h2 id="04-16不重新刷机替换内核">04-16不重新刷机，替换内核</h2>
+<p>上传 img到原系统的某个目录</p>
+<p>例如 /opt, 然后ssh连入，确保/boot目录有足够空间（大约70MB)，用df -h 查看）</p>
+<p>如果/boot的空间不足，则需要删除一部分旧版内核的文件，例如config-* System.map-*</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8be9fd;font-style:italic">cd</span> /opt
+losetup -f -P Armbian_5.98_Aml-g12_Debian_buster_default_5.3.6-amlogic-flippy-9+.img
+mkdir p1 p2
+mount /dev/loop0p1 p1
+mount /dev/loop0p2 p2
+<span style="color:#8be9fd;font-style:italic">cd</span> p1
+cp vmlinuz-5.3.6-amlogic-flippy-9+ /boot
+cp uInitrd-5.3.6-amlogic-flippy-9+ /boot
+cp initrd.img-5.3.6-amlogic-flippy-9+ /boot <span style="color:#6272a4"># 可选</span>
+cp System.map-5.3.6-amlogic-flippy-9+ /boot  <span style="color:#6272a4"># 可选</span>
+cp config-5.3.6-amlogic-flippy-9+ /boot <span style="color:#6272a4"># 可选</span>
+<span style="color:#8be9fd;font-style:italic">cd</span> ../p2/lib/modules
+cp -a 5.3.6-amlogic-flippy-9+ /lib/modules
+<span style="color:#8be9fd;font-style:italic">cd</span> /boot
+cp vmlinuz-5.3.6-amlogic-flippy-9+ zImage
+cp uInitrd-5.3.6-amlogic-flippy-9+ uInitrd
+sync
+<span style="color:#8be9fd;font-style:italic">cd</span> /opt/
+umount p1 p2
+losetup -D
+reboot
+
+<span style="color:#6272a4"># 重启成功之后：</span>
+rm -f /boot/*aml-g12*  <span style="color:#6272a4"># 删除旧版内核相关文件,可选</span>
+rm -rf /lib/modules/*aml-g12*  <span style="color:#6272a4">#删除旧版内核模块，可选</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="04-18线刷恢复emmc法">04-18线刷恢复EMMC法</h2>
+<h3 id="准备工作-1">准备工作</h3>
+<ul>
+<li>N1机子一台（系统崩溃了也没关系）</li>
+<li>USB对公线一条，尽量品质好点的品牌线，某宝9.9以内半米长包邮的很多</li>
+<li>准备好WebPad大的2.2线刷包    <a class="link" href="https://www.right.com.cn/forum/forum.php?mod=viewthread&amp;tid=338759&amp;extra=page%3D2%26filter%3Dtypeid%26typeid%3D21"  target="_blank" rel="noopener"
+    >传送门&gt;</a></li>
+<li>USB_Burning_Tool 刷机工具      <a class="link" href="http://www.upantool.com/gujian/2018/12380.html"  target="_blank" rel="noopener"
+    >传送门&gt;</a></li>
+</ul>
+<h3 id="开始刷机">开始刷机</h3>
+<ul>
+<li>先把USB对公线插上到电脑USB口与N1的第二个口（靠HDMI口），N1不要通电</li>
+<li>打开USB_Burning_Tool，导入固件WEBPAD大的2.2的线刷包，验证通过后，出现开始字样</li>
+<li><code>勾选擦除FLASH</code>，不要勾选擦除bootloader</li>
+<li>USB_Burning_Tool点击开始运行刷机，<code>3秒钟内速度让N1通电</code></li>
+<li>USB_Burning_Tool开始正常识别N1线刷模式，刷机开始</li>
+<li>烧录完成后，拔电重启，N1恢复了原来的样子</li>
+</ul>
+<h3 id="没有显示器的情况下如何找到盒子ip">没有显示器的情况下如何找到盒子IP</h3>
+<ul>
+<li>进入路由器后台查看</li>
+<li>cmd命令<code>arp -a</code></li>
+<li>IPhone端 <code>Fing</code> APP</li>
+<li>Android端 <code>NetX</code>APP</li>
+</ul>
+<h3 id="后记">后记</h3>
+<p>盒子已经刷入WebPad电视系统，后续刷其它固件步骤也是一样，不过这里是要用<code>遥控器</code>按关机选择<code>线刷</code>模式才可以进去U盘系统。没遥控器的可以下载<code>悟空遥控器</code>APP或者微信小程序<code>简易电视盒子遥控器</code></p>
+
+</section>
+
+
+    
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/phicomm/">Phicomm</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>本文最终解释权归作者所有，如需转载请注明出处。</span>
+    </section>
+    <section class="article-views">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="2" />
+  <path d="M2 12l1.5 2a11 11 0 0 0 17 0l1.5 -2" />
+  <path d="M2 12l1.5 -2a11 11 0 0 1 17 0l1.5 2" />
+</svg>
+
+
+
+    <span id="busuanzi_value_page_pv"></span><span>&nbsp;&nbsp;views</span>
+    </section>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</footer>
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="has-image">
+    <a href="/p/%E8%BD%BB%E5%9E%8B-nas-openwrt-%E7%BB%84%E5%90%88/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E8%BD%BB%E5%9E%8B-nas-openwrt-%E7%BB%84%E5%90%88/bg.ebe5931f6ddd0151aeb1002ed9b2725b_hu12b0c03588f2744c08efb9492900fc2f_1694806_250x150_fill_box_smart1_2.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy" 
+                        data-key="" 
+                        data-hash="md5-6&#43;WTH23dAVGusQAu2bJyWw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">轻型 NAS &#43; OpenWrt 组合</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/p/openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F/">
+        
+        
+            <div class="article-image">
+                <img src="/p/openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F/bg.f745f06852d4fd7b1243dfa9ff0eb732_hub396a9b3c0ea0243d6f1a17688705654_317470_250x150_fill_box_smart1_2.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy" 
+                        data-key="" 
+                        data-hash="md5-90XwaFLU/XsSQ9&#43;p/w63Mg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">OpenWrt 旁路由模式</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/p/docker-%E5%AE%89%E8%A3%85-openwrt/">
+        
+        
+            <div class="article-image">
+                <img src="/p/docker-%E5%AE%89%E8%A3%85-openwrt/bg.32348894f06f857b119235ac90fc02c3_hu75d2ea559479d9e6a1b565c1ad2d431f_100629_250x150_fill_box_smart1_2.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy" 
+                        data-key="" 
+                        data-hash="md5-MjSIlPBvhXsRkjWskPwCww==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Docker 安装 OpenWrt</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2021 SimonHux Blog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="2.0.1">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+            </main>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"
+    integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g=" crossorigin="anonymous"></script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

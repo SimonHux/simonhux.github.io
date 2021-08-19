@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='以小博大，方便实用'><title>轻型 NAS &#43; OpenWrt 组合</title>
+
+<link rel='canonical' href='https://simonhux.com/p/%E8%BD%BB%E5%9E%8B-nas-openwrt-%E7%BB%84%E5%90%88/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='轻型 NAS &#43; OpenWrt 组合'>
+<meta property='og:description' content='以小博大，方便实用'>
+<meta property='og:url' content='https://simonhux.com/p/%E8%BD%BB%E5%9E%8B-nas-openwrt-%E7%BB%84%E5%90%88/'>
+<meta property='og:site_name' content='SimonHux Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Phicomm' /><meta property='article:published_time' content='2020-05-03T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2020-05-03T00:00:00&#43;00:00'/><meta property='og:image' content='https://simonhux.com/p/%E8%BD%BB%E5%9E%8B-nas-openwrt-%E7%BB%84%E5%90%88/bg.png' />
+<meta name="twitter:title" content="轻型 NAS &#43; OpenWrt 组合">
+<meta name="twitter:description" content="以小博大，方便实用"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://simonhux.com/p/%E8%BD%BB%E5%9E%8B-nas-openwrt-%E7%BB%84%E5%90%88/bg.png' />
+    <link rel="shortcut icon" href="favicon_32.ico" />
+
+    </head>
+    <body class="">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.body.dataset.scheme = 'dark';
+        } else {
+            document.body.dataset.scheme = 'light';
+        }
+    })();
+</script><div class="container main-container flex on-phone--column extended article-page with-toolbar">
+            <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            <figure class="site-avatar">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hucbc1a68a76acad496aa76d0a2e4fa40d_39277_300x0_resize_q75_box.jpeg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+
+                
+                    <span class="emoji">💫</span>
+                
+            </figure>
+        
+        <h1 class="site-name"><a href="https://simonhux.com/">SimonHux Blog</a></h1>
+        <h2 class="site-description">日拱一卒，功不唐捐</h2>
+    </header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/'>
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives'>
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/link'>
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Link</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search'>
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about'>
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>暗色模式</span>
+            </li>
+        
+    </ol>
+</aside>
+
+            <main class="main full-width">
+    <div id="article-toolbar">
+        <a href="https://simonhux.com/" class="back-home">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+            <span>Back</span>
+        </a>
+    </div>
+
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E8%BD%BB%E5%9E%8B-nas-openwrt-%E7%BB%84%E5%90%88/">
+                <img src="/p/%E8%BD%BB%E5%9E%8B-nas-openwrt-%E7%BB%84%E5%90%88/bg_hu12b0c03588f2744c08efb9492900fc2f_1694806_800x0_resize_box_2.png"
+                        srcset="/p/%E8%BD%BB%E5%9E%8B-nas-openwrt-%E7%BB%84%E5%90%88/bg_hu12b0c03588f2744c08efb9492900fc2f_1694806_800x0_resize_box_2.png 800w, /p/%E8%BD%BB%E5%9E%8B-nas-openwrt-%E7%BB%84%E5%90%88/bg_hu12b0c03588f2744c08efb9492900fc2f_1694806_1600x0_resize_box_2.png 1600w"
+                        width="800" 
+                        height="450" 
+                        loading="lazy"
+                        alt="Featured image of post 轻型 NAS &#43; OpenWrt 组合" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/phicomm/" >
+                Phicomm
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/p/%E8%BD%BB%E5%9E%8B-nas-openwrt-%E7%BB%84%E5%90%88/">轻型 NAS &#43; OpenWrt 组合</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        以小博大，方便实用
+    </h3>
+    <footer class="article-time">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <time class="article-time--published">May 03, 2020</time>
+    </footer></div>
+
+    
+</header>
+
+    
+
+    <section class="article-content">
+    <h2 id="前言">前言</h2>
+<blockquote>
+<p>如果愿意用隐私来交换便捷性或者效率的话，很多情况下他们是愿意这么做的。</p>
+<p>​																											——百度·李彦宏</p>
+</blockquote>
+<p>NAS全称 Network Attached Storage ，字面意思是：网络附加存储，说白话就是一台属于自己私人<code>去中心化服务器</code>，可以存储音乐、电影、照片等数据，可以做网盘，能做远程下载，能做影音服务器等等等你想让NAS做任何你想解决的方案。相对于家用主机①更低的功耗②24小时待机，两个特点。成熟的NAS产品像群晖、威联通可能二三十瓦功耗，低功耗硬件DIY黑群晖30瓦到40瓦不等。如果你对瓦数没什么概念，电视机顶盒的功耗一般15瓦左右，笔记本大约60 瓦左右。低功耗主要还是在省电方面实在。</p>
+<p>NAS 最大的特性是<code>去中心化</code>，我们用NAS寻找解决方案的目的是为了掌控自己所产生的信息化数据，对数据拥有绝对的处决权，而不是追求数据的安全性。</p>
+<p>不好理解举个例子：你买一辆电动车，你可以任意处置它。你想明天骑明天就一定能骑，没有人能约束你。但你没法保证今晚窃·格瓦拉他不会来光顾你家院子，所以你对安全性没法保障。但是没了处决权，比如共享单车运营商只要明天他不然你骑，你就百分之百骑不了。</p>
+<p>再回到安全，信息化安全它是一个相对概念。任何数据只要信息化都百分百不安全，举个例子，密码管理器LastPass，把所有密码都放在服务端。好比把全部鸡蛋放在一个篮子里。去中心化考虑的是处置权，而不是安全性。此处恰好引用百度·李彦宏，在2018年3月中国高层发展论坛所讲述的那句话。</p>
+<p>此篇文章并非是 UNRAID、OpenMediaVault（OMV） 、FreeNAS等 NAS 系统，而是在 Linux 下一套<code>可行性</code>解决方案，其中斐讯 N1 满载6瓦左右，我家云满载10瓦左右</p>
+<h2 id="关于">关于</h2>
+<h3 id="关于配置">关于配置</h3>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/deploy.png" alt=""  /></p>
+<h3 id="关于固件选择">关于固件选择</h3>
+<p>N1：Armbian <br>
+我家云：OpenWrt</p>
+<p>“反向操作”？并没有。从配置上看，我家云更适合组 NAS（OMV），挂硬盘，速率也高。但众所周知，我家云也叫掉盘云。硬盘用着用着会突然掉线，系统识别不到硬盘。掉盘是需要通过硬改才可以解决，<a class="link" href="https://www.right.com.cn/forum/thread-1313598-1-1.html"  target="_blank" rel="noopener"
+    >参考F大：我家云硬盘供电的三个BUG（掉盘的主要元凶）</a>如是是用 FTP 进行文件传输发热量大且噪音也是非常大。如果是拆掉外壳，可体验风扇噪音最大化。</p>
+<p>N1，安装过几次 OMV，<a class="link" href="https://www.right.com.cn/forum/thread-3049724-1-1.html"  target="_blank" rel="noopener"
+    >参考书生86，Armbian 成功安装 OMV5 方法</a>，但都失败了。退而求其次，选择 Armbian 系统安装 Docker 容器。 N1 也是散热问题，在某些环境下 CPU 最高达到48℃，但相比我家云没有噪音。</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/dbdb.png" alt=""  /></p>
+<p>N1是在同时跑5个 Docker 容器 47℃，而我家云只跑了一个 OpenWrt 就 46℃</p>
+<h2 id="斐讯-n1-篇">斐讯 N1 篇</h2>
+<p>镜像：Armbian_20.02.0_Aml-s9xxx_buster_5.4.28-amlogic-flippy-32+.img<br>
+Docker：Portainer、File Browser、Aria2、Nginx<br>
+移动硬盘：斐讯 H1 外壳+ HTS725050A7E630 500G<br>
+N1刷入 armbian 和安装 Docker 不再此赘述，详细请查看<a class="link" href="[https://rainsimon.top/2020/04/05/%E6%9C%80-%E4%B8%8D%E6%AD%A3%E7%BB%8F-%E7%9A%84%E7%9B%92%E5%AD%90-%E6%96%90%E8%AE%AFN1/" >最“不正经”的盒子斐讯 N1</a></p>
+<p><figure style="flex-grow: 210; flex-basis: 505px">
+		<a href="/p/%E8%BD%BB%E5%9E%8B-nas-openwrt-%E7%BB%84%E5%90%88/n1.png" data-size="1845x876"><img src="/p/%E8%BD%BB%E5%9E%8B-nas-openwrt-%E7%BB%84%E5%90%88/n1.png"
+				srcset="/p/%E8%BD%BB%E5%9E%8B-nas-openwrt-%E7%BB%84%E5%90%88/n1_hu31f1c29c03de038982e80a34dde4a6d3_1085445_480x0_resize_box_2.png 480w, /p/%E8%BD%BB%E5%9E%8B-nas-openwrt-%E7%BB%84%E5%90%88/n1_hu31f1c29c03de038982e80a34dde4a6d3_1085445_1024x0_resize_box_2.png 1024w"
+				width="1845"
+				height="876"
+				loading="lazy"
+				>
+		</a>
+		
+	</figure></p>
+<h3 id="挂载移动硬盘">挂载移动硬盘</h3>
+<h4 id="获取磁盘的-uuid">获取磁盘的 UUID</h4>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">blkid
+</code></pre></td></tr></table>
+</div>
+</div><p>通常 /dev/sda1 为移动硬盘，例如我的</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/blkid.png" alt=""  /></p>
+<h4 id="编辑-fstab">编辑 fstab</h4>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vi /etc/fstab
+</code></pre></td></tr></table>
+</div>
+</div><p>按i进行修改，把硬盘载到 /media 目录下，当然这个可以挂载根目录任意一个文件夹下</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/uid.png" alt=""  /></p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#8be9fd;font-style:italic">UUID</span><span style="color:#ff79c6">=</span>2530EFAFAE6D5583   /media  ntfs defaults,nofail <span style="color:#bd93f9">0</span>   <span style="color:#bd93f9">2</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>改好后依次按返回键 :wq 保存退出。注意别少了冒号</p>
+<p><code>reboot</code>重启，验证移动硬盘是否挂载到 /media 下</p>
+<h3 id="file-browser-版本选择">File Browser 版本选择</h3>
+<p>原版作者停止项目开发，<a class="link" href="https://github.com/filebrowser/filebrowser"  target="_blank" rel="noopener"
+    >👉详细请戳这里</a><br>
+荒野无灯大神在原版基础上增加更细致化功能，<a class="link" href="https://hub.docker.com/r/80x86/filebrowser"  target="_blank" rel="noopener"
+    >👉详细请戳这里，80x86/filebrowser</a><br>
+<img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/FB.zh.png" alt=""  /><br>
+在此选择荒野无灯大神版</p>
+<h3 id="安装-file-browser">安装 File Browser</h3>
+<ul>
+<li>打开SSH工具，输入以下代码</li>
+</ul>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run -it --restart always -d --name filebrowser --net<span style="color:#ff79c6">=</span>host -e <span style="color:#8be9fd;font-style:italic">PUID</span><span style="color:#ff79c6">=</span><span style="color:#bd93f9">1000</span> -e <span style="color:#8be9fd;font-style:italic">PGID</span><span style="color:#ff79c6">=</span><span style="color:#bd93f9">100</span> -e <span style="color:#8be9fd;font-style:italic">WEB_PORT</span><span style="color:#ff79c6">=</span><span style="color:#bd93f9">8081</span> -v /var/lib/filebrowser:/config -v /media/docker/filebrowser:/myfiles --mount <span style="color:#8be9fd;font-style:italic">type</span><span style="color:#ff79c6">=</span>tmpfs,destination<span style="color:#ff79c6">=</span>/tmp 80x86/filebrowser:2.9.1-arm64
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>注意</p>
+<p>v /media/docker/filebrowser
+此处对应的是移动硬盘，改成你想要放置File Browser目录的外接硬盘地址</p>
+<p>2.9.1-arm64
+amd64和 arm64 需要单独使用tag，n1是arm64架构</p>
+<p>​	amd64：<code>2.9.1-amd64</code>
+​	arm64：<code>2.9.1-arm64</code></p>
+</blockquote>
+<h3 id="设置-file-browser">设置 File Browser</h3>
+<h4 id="容器设置">容器设置</h4>
+<ul>
+<li>
+<p>进入<code>Portainer</code></p>
+</li>
+<li>
+<p>点击<code>filebrowser</code>，选择<code>Dupllcate/Edit</code></p>
+</li>
+<li>
+<p>添加端口为8081</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/net.png" alt=""  /></p>
+</li>
+<li>
+<p>修改<code>NetWork</code>为<code>bridge</code></p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/bridge.png" alt=""  /></p>
+</li>
+<li>
+<p>点击<code>Deploy the contalner</code>部署容器</p>
+</li>
+<li>
+<p>勾选<code>filebrowser</code>点击<code>Restart</code>，重启容器</p>
+</li>
+</ul>
+<h4 id="file-browser-设置">File Browser 设置</h4>
+<p>在浏览器输入 Armbian IP:8081</p>
+<p>用户名和密码默认为：admin</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/login.png" alt=""  /></p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/files.png" alt=""  /></p>
+<h5 id="修改为中文">修改为中文</h5>
+<ul>
+<li>settings → Language →中文(简体)→ UPDATE</li>
+<li>全局设置→用户默认设置→语言→中文(简体)→更新</li>
+<li>用户管理→设置→语言→中文(简体)→保存</li>
+</ul>
+<h5 id="docker-命令行秘籍">docker 命令行秘籍</h5>
+<h6 id="禁用-2fa">禁用 2FA</h6>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker <span style="color:#8be9fd;font-style:italic">exec</span> -ti filebrowser sh -c <span style="color:#f1fa8c">&#39;s6-svc -d /etc/services.d/fb &amp;&amp; su -s /bin/sh -c &#34;filebrowser users update 用户名 --otp.disable&#34; app &amp;&amp; s6-svc -u /etc/services.d/fb&#39;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h6 id="修改密码">修改密码</h6>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker <span style="color:#8be9fd;font-style:italic">exec</span> -ti filebrowser sh -c <span style="color:#f1fa8c">&#39;s6-svc -d /etc/services.d/fb &amp;&amp; su -s /bin/sh -c &#34;filebrowser users update 用户名 --password 新密码&#34; app &amp;&amp; s6-svc -u /etc/services.d/fb&#39;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h6 id="查看被封印的-ip">查看被封印的 IP</h6>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker <span style="color:#8be9fd;font-style:italic">exec</span> -ti filebrowser sh -c <span style="color:#f1fa8c">&#39;s6-svc -d /etc/services.d/fb &amp;&amp; su -s /bin/sh -c &#34;filebrowser logs ls&#34; app &amp;&amp; s6-svc -u /etc/services.d/fb&#39;</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>修改密码失败可以用此命令也可以在<code>设置</code>→Failed Logs查看</p>
+</blockquote>
+<h6 id="解除封印">解除封印</h6>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker <span style="color:#8be9fd;font-style:italic">exec</span> -ti filebrowser sh -c <span style="color:#f1fa8c">&#39;s6-svc -d /etc/services.d/fb &amp;&amp; su -s /bin/sh -c &#34;filebrowser logs rm 被封禁的IP&#34; app &amp;&amp; s6-svc -u /etc/services.d/fb&#39;</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>解除IP后可进行对密码修改</p>
+</blockquote>
+<h3 id="主要功能展示">主要功能展示</h3>
+<h4 id="右键菜单总览">右键菜单总览</h4>
+<p>重新载入、切换任务面板、复制文件名、复制外部链接、查看媒体信息、查看文件信息、制作种子、制作缩略图、提取字母、解压缩、密码重命名、重命名、权限修改、删除</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/1.png" alt=""  /></p>
+<h4 id="媒体信息文件信息">媒体信息、文件信息</h4>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/2.png" alt=""  /></p>
+<h4 id="缩略图">缩略图</h4>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/3.png" alt=""  /></p>
+<h4 id="markdown-编辑预览">MarkDown 编辑预览</h4>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/4.png" alt=""  /></p>
+<h4 id="压缩文件apk文件预览文本代码等文件编辑">压缩文件、APK文件预览，文本、代码等文件编辑</h4>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/5.png" alt=""  /></p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/6.png" alt=""  /></p>
+<h4 id="移动端调用本地播放器">移动端调用本地播放器</h4>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/7.png" alt=""  /></p>
+<h3 id="安装-samba">安装 Samba</h3>
+<h4 id="拉取镜像">拉取镜像</h4>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run -d --restart<span style="color:#ff79c6">=</span>always -p 137:137/udp -p 138:138/udp -p 139:139 -p 445:445 -p 445:445/udp --hostname <span style="color:#f1fa8c">&#39;Armbian&#39;</span> -v /media:/share/folder  elswork/samba -u <span style="color:#f1fa8c">&#34;用户名:密码&#34;</span> -s <span style="color:#f1fa8c">&#34;mycloud:/share/folder:rw:用户名&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>Armbian：可改成你想要的名称</p>
+<p>mycloud：为共享文件夹名称</p>
+<p>/media：共享的目录，改成你的移动硬盘目录</p>
+</blockquote>
+<h4 id="访问-samba">访问 Samba</h4>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">\\Armbian IP\mycloud
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="映射到电脑">映射到电脑</h4>
+<p><code>此电脑</code>或<code>资源管理器</code><br>
+<img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/z.png" alt=""  /></p>
+<p>此时已经映射到电脑里</p>
+<h4 id="与-file-browser重叠">与 File Browser重叠？</h4>
+<p>重叠
+但 Samba 是映射整个 <code>/media</code> 目录。而 File Browser 映射 <code>/media/docker/filebrowser</code> 目录</p>
+<p>下面的 <code>Aria2</code> 下载器，如果是把下载文件夹建立 <code>/media</code> 目录下 Samba 是可以直接访问</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/sambaaaaa.png" alt=""  /></p>
+<p>如果需要流媒体播放，如 <code>nPlayer</code> 是直接可以通过 <code>SMB</code> 进行访问<br>
+<img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/nplayer.png" alt=""  /></p>
+<h3 id="安装-aria2">安装 Aria2</h3>
+<h4 id="拉取镜像-1">拉取镜像</h4>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run -d <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  --name aria2 <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  -e <span style="color:#8be9fd;font-style:italic">GUI</span><span style="color:#ff79c6">=</span>on <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  -e <span style="color:#8be9fd;font-style:italic">RPC_PASSWORD</span><span style="color:#ff79c6">=</span><span style="color:#bd93f9">123456</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  -p 6800:6800 <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  -p 8089:80 <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  -v /media/docker/aria2/downloads:/media/docker/aria2/downloads <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  -v /media/docker/aria2/config:/media/docker/aria2/config <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  lstcml/aria2
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>-e RPC_PASSWORD=123456 \       #设置你的密码</p>
+<p>-p 6800:6800 \                 #如果需要从外网管理你的下载需要主路由做观看映射</p>
+<p>-p 8089:80 \               #需要主路由上做端口映射</p>
+<p>-v ~/aria2/downloads:/        #设置下载目录，冒号两边一致</p>
+<p>-v ~/aria2-downloads:/downloads \   #设置配置文件目录，冒号两边一致</p>
+</blockquote>
+<h4 id="进入-arai2">进入 Arai2</h4>
+<p>在浏览器输入Armbian IP:8089即可见证奇迹</p>
+<h4 id="测速">测速</h4>
+<p>这是20MB的带满，22点左右测试，基本跑满带宽<br>
+<img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/aria2.png" alt=""  /></p>
+<h4 id="获取更多的-tracker">获取更多的 Tracker</h4>
+<p><a href="http://edam.top/tk/">http://edam.top/tk/</a>，trackers_all，获取并生成<br>
+<a href="https://trackerslist.com/#/zh">https://trackerslist.com/#/zh</a></p>
+<h5 id="设置-tracker">设置 Tracker</h5>
+<ul>
+<li>
+<p>连接超时时间和服务器超时时间都设置为3秒，但 Tracker 过多时不需要60秒重新连接</p>
+</li>
+<li>
+<p>把连接全部复制到 BT 服务器地址里</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/tracker.png" alt=""  /></p>
+</li>
+</ul>
+<h3 id="安装-nginx">安装 Nginx</h3>
+<p>可用于建站，这里用作于引导页</p>
+<h4 id="拉取镜像-2">拉取镜像</h4>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run --name nginx -p 8080:80 -v /media/docker/www:/usr/share/nginx/html:ro -d nginx
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>-v /media/docker/www
+这里同样可以是任意目录</p>
+</blockquote>
+<h4 id="上传源文件到-www-目录">上传源文件到 www 目录</h4>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/wwwwwwww.png" alt=""  /></p>
+<h4 id="进入网页">进入网页</h4>
+<p>在浏览器输入Armbian IP:8080即可见证奇迹</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/8080880.png" alt=""  /></p>
+<h2 id="我家云篇">我家云篇</h2>
+<ul>
+<li>镜像：L1-Pro_Openwrt_R20.4.8_k5.4.32-flippy-34+o.img</li>
+<li>USB-A公对公刷机线</li>
+<li>驱动：DriverAssitant_v4.6</li>
+<li>线刷工具：AndroidTool</li>
+</ul>
+<p>我家云相对于斐讯N1刷机，更加简单，更加直接。显示器、U盘甚至是网线都不需要，只需要一条公对公刷机线即可无脑刷机<br>
+<figure style="flex-grow: 150; flex-basis: 360px">
+		<a href="/p/%E8%BD%BB%E5%9E%8B-nas-openwrt-%E7%BB%84%E5%90%88/l1.png" data-size="1026x684"><img src="/p/%E8%BD%BB%E5%9E%8B-nas-openwrt-%E7%BB%84%E5%90%88/l1.png"
+				srcset="/p/%E8%BD%BB%E5%9E%8B-nas-openwrt-%E7%BB%84%E5%90%88/l1_hu3c95474e7134da6db1bb1d974a823fc4_535931_480x0_resize_box_2.png 480w, /p/%E8%BD%BB%E5%9E%8B-nas-openwrt-%E7%BB%84%E5%90%88/l1_hu3c95474e7134da6db1bb1d974a823fc4_535931_1024x0_resize_box_2.png 1024w"
+				width="1026"
+				height="684"
+				loading="lazy"
+				>
+		</a>
+		
+	</figure></p>
+<h3 id="刷机">刷机</h3>
+<h4 id="安装驱动">安装驱动</h4>
+<p>双击 DriverInstall.exe 运行程序，点击 驱动安装 按钮安装驱动。期间任何弹窗安装都点击是</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/L1/rockchip.png" alt=""  /></p>
+<h4 id="将设备进入准备刷机模式">将设备进入准备刷机模式</h4>
+<p>注意：刷过的机器和未刷过的机器会有一些区别，请务必认真阅读仔细操作</p>
+<ul>
+<li>双击 AndroidTool.exe 运行程序，请务必确认打开后自己电脑中软件显示的内容和以下图片一致<br>
+<img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/L1/non.png" alt=""  /></li>
+</ul>
+<blockquote>
+<p>将双公头线插入<code>设备的2.0接口</code>
+用回形针一直戳 <code>RESET</code> ，或者拆机按着 <code>RESET</code> 不放。插上电源
+等待刷机工具显示 发现一个 MASKROM 设备 后松开回形针。</p>
+</blockquote>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/L1/maskrom.png" alt=""  /></p>
+<h5 id="如果是初次刷机的用户">如果是初次刷机的用户</h5>
+<p>软件提示的是<code>发现一个 LOADER 设备</code></p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/L1/loader.jpg" alt=""  /></p>
+<p>此时点击 <code>高级功能</code> ，点击 <code>进入 Maskrom </code> 按钮</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/L1/b7whV1TpzsaNC8O.jpg" alt=""  /></p>
+<p>软件显示 发现一个 <code>MASKROM 设备</code> 后就可以回到 下载镜像 页面准备刷机了</p>
+<h5 id="将固件刷入机器">将固件刷入机器</h5>
+<ul>
+<li>
+<p>选择要刷入的固件</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/L1/rom.png" alt=""  /></p>
+</li>
+<li>
+<p>执行</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/L1/recc.png" alt=""  /></p>
+</li>
+</ul>
+<p>拔掉电源，拔掉 USB 线。插上电源，尽情体验</p>
+<h3 id="openwrt-设置">OpenWrt 设置</h3>
+<p>默认IP： 192.168.1.1，默认密码： password
+如果主路由或光猫也用192.168.1.1这个 IP 地址的话，我家云就直连电脑，不要经过主路由或光猫</p>
+<p><img src="https://simonblog-photo.oss-cn-beijing.aliyuncs.com/img/N1/filebrowser/L1/wrt.png" alt=""  /></p>
+<p>还是熟悉的配方，还是原来的味道。其它设置如<code>接口— LAN </code>、<code>防火墙规则</code>、 <code>SmartDNS </code>等请参考之前的文章。</p>
+<p>这里要提一下：<code>当某个机场在圈内无法订阅时，先用PLUS+飞出去，再用插件PassWall订阅</code></p>
+<h4 id="mtu-值设置">MTU 值设置</h4>
+<p>网络→接口→LAN→高级设置→重设 MTU</p>
+<blockquote>
+<p>F大在帖子说明</p>
+<p>无意中发现，当采用单臂主路由时，如果wan口的mtu大于1472，则用ifconfig命令查看eth0的mtu是1536，但1536应该是不太正常的。所以建议把wan口的mtu改成1472</p>
+</blockquote>
+<p>合理调整openwrt MTU值：https://www.right.com.cn/forum/thread-147203-1-1.html</p>
+<h4 id="openwrt-在线升级方法">OpenWrt 在线升级方法</h4>
+<p>此方法可以完整无损保留之前配置，相对于 N1 备份、重做、重刷、恢复简单</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">1. 把update-beikeyun-openwrt.sh 和 线刷包img文件<span style="color:#ff79c6">(</span>解压后的<span style="color:#ff79c6">)</span>用winscp上传至我家云openwrt系统里的/mnt/mmcblk0p4目录
+2. ssh连入openwrt
+3. <span style="color:#8be9fd;font-style:italic">cd</span>  /mnt/mmcblk0p4
+4. ls -l update-l1pro-openwrt.sh
+    如果文件权限不是 -rwxr-xr-x的话，运行 chmod <span style="color:#bd93f9">755</span> update-l1pro-openwrt.sh
+5. 运行以下命令：
+./update-l1pro-openwrt.sh【空格】 【img文件名】，回车。
+例如：
+./update-l1pro-openwrt.sh L1-Pro_Openwrt_R20.4.8_k5.4.35-flippy-35+o.img
+6. 脚本执行完毕，reboot命令重启，稍等一分多钟，over
+
+</code></pre></td></tr></table>
+</div>
+</div><p>原理：第一次线刷时预留了2个分区： mmcblk0p3 、 mmcblk0p4 ，其中 p3 分区就是备用的 rootfs 分区，每运行一次升级脚本，就会把新的 rootfs 写到该预留分区，然后原 rootfs 分区被切换成备用分区，再升级一次又换回来，就是这样滚动进行的</p>
+<h4 id="usb-转-rj45-接口">USB 转 RJ45 接口</h4>
+<p>此举可以让 N1 或者我家云多出一个 WAN 口<br>
+刷机之前如果插上 USB 网卡的话，刷好机后就可以使用 wan 了，推荐配合<code>8153网卡</code> 做主路由， lan-wan 转发速率接近 900m</p>
+<h4 id="版和o版的区别">+版和+o版的区别</h4>
+<p>+版对 CPU 占用率过高，可以跑满带宽<br>
++o版开启 flow offlooading 加速，会有较低的 CPU 占用率，可以跑满带宽。但同时也会产生负优化，如死机，断流，断网等等等小毛病<br>
++版适合旁路由，+o版适合主路由。但机器各体制不同，也可能是方向操作</p>
+<h2 id="后记">后记</h2>
+<p>OpenWrt 有非常高的可玩性，很多 OpenWrt 内置了很多插件，如qBittorrent、Samba、Aria2、Docker CE、内网穿刺、微信推送等等等。</p>
+<p>一个可刷入 OpenWrt 设备就可以满足多样化需求，多一个类似的设备是为了少折腾，有比较良好的稳定性。在 Docker 下折腾最大的好处是可以快速删除、安装容器，不用重新做盘安装新的镜像。而在只有 OpenWrt 系统下，如果操作不当，可能需要重做 OpenWrt 系统重新刷入 EMMC 。如果只是为了科学上网单独的 OpenWrt 更适合，如果是多样化需求在 Armbian Linux 下安装 Docker 更方便。</p>
+
+</section>
+
+
+    
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/phicomm/">Phicomm</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>本文最终解释权归作者所有，如需转载请注明出处。</span>
+    </section>
+    <section class="article-views">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="2" />
+  <path d="M2 12l1.5 2a11 11 0 0 0 17 0l1.5 -2" />
+  <path d="M2 12l1.5 -2a11 11 0 0 1 17 0l1.5 2" />
+</svg>
+
+
+
+    <span id="busuanzi_value_page_pv"></span><span>&nbsp;&nbsp;views</span>
+    </section>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</footer>
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="has-image">
+    <a href="/p/openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F/">
+        
+        
+            <div class="article-image">
+                <img src="/p/openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F/bg.f745f06852d4fd7b1243dfa9ff0eb732_hub396a9b3c0ea0243d6f1a17688705654_317470_250x150_fill_box_smart1_2.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy" 
+                        data-key="" 
+                        data-hash="md5-90XwaFLU/XsSQ9&#43;p/w63Mg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">OpenWrt 旁路由模式</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/p/docker-%E5%AE%89%E8%A3%85-openwrt/">
+        
+        
+            <div class="article-image">
+                <img src="/p/docker-%E5%AE%89%E8%A3%85-openwrt/bg.32348894f06f857b119235ac90fc02c3_hu75d2ea559479d9e6a1b565c1ad2d431f_100629_250x150_fill_box_smart1_2.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy" 
+                        data-key="" 
+                        data-hash="md5-MjSIlPBvhXsRkjWskPwCww==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Docker 安装 OpenWrt</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="has-image">
+    <a href="/p/%E6%9C%80%E4%B8%8D%E6%AD%A3%E7%BB%8F%E7%9A%84%E7%9B%92%E5%AD%90-%E6%96%90%E8%AE%AFn1/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E6%9C%80%E4%B8%8D%E6%AD%A3%E7%BB%8F%E7%9A%84%E7%9B%92%E5%AD%90-%E6%96%90%E8%AE%AFn1/bg.fede0cdad8858ee020a5d55e911c5a8e_hu31f1c29c03de038982e80a34dde4a6d3_1085445_250x150_fill_box_smart1_2.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy" 
+                        data-key="" 
+                        data-hash="md5-/t4M2tiFjuAgpdVekRxajg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">最“不正经”的盒子 斐讯N1</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2021 SimonHux Blog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="2.0.1">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+            </main>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"
+    integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g=" crossorigin="anonymous"></script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Shell on SimonHux Blog</title>
+    <link>https://simonhux.com/tags/shell/</link>
+    <description>Recent content in Shell on SimonHux Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 01 Apr 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://simonhux.com/tags/shell/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Windows&#34;新宠儿&#34;：Windows Terminal</title>
+      <link>https://simonhux.com/p/windows%E6%96%B0%E5%AE%A0%E5%84%BFwindows-terminal/</link>
+      <pubDate>Wed, 01 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://simonhux.com/p/windows%E6%96%B0%E5%AE%A0%E5%84%BFwindows-terminal/</guid>
+      <description>前言 Windows Terminal 是微软在2019年Build大会上宣布推出的全新开源终端应用，它带来了许多强大的特性，比如多标签页、Unicode 和 UTF-8 字符支持、GPU 加速文本渲染引擎与自定义主题、样式和配置等。
+Windwos Terminal 采用 C++ 开发，基于现代 Windows 应用平台和 UI 框架，同时整合共享的现代化组件，这些共享组件可以在 Windows 任何终端上使用，比如有一个全新的基于 DirectWrite 的文本布局和渲染引擎、一个能够存储 UTF-16 和 UTF-8 的文本缓冲区以及一个 VT 解析器/发射器。
+此外，Windows Terminal 渲染器和输入栈被构建成了可重用的 Windows UI 控件，方便其他开发者将其整合到他们自己的应用中。
+Windows Terminal 项目经理 Kayla Cinnamon 在博客中介绍了终端的各种设置方法
+安装 👉 注意：Windows Terminal需要Windows 10 1903（内部版本18362）或更高版本
+cmd下输入winver可查看当前版本
+打开windows自带的应用商店，搜索Windows Terminal，安装即可
+使用 下载后可以在应用中找到，点击进入可以进入使用，默认开启的首页是Powershell
+Windows Terminal可以在同一窗口代开多个标签页
+个性化配置 每个标签页都可以任意配置应用，可以根据需要加入如anaconda，Git bash，ssh，Ubuntu等terminal，并且已有的terminal也可以根据喜好配置。
+接下来进行DIY吧
+点击选项卡旁边的下拉，会出现以下几个选项，选择settings将会打开profiles.json
+用任意编辑器打开即可，如：Vs Code、Sublime Text、notepad++等等等甚至记事本都可以
+配置文件可以对Windows Terminal进行各种属性的调整
+ 全局属性：位于 JSON 最外侧，包含有设置亮暗主题、默认 Profile 等项目的配置。 环境入口 profiles：一个列表，其中包含有 Windows Terminal 下拉菜单中唤起的各种环境（比如打开 PowerShell 环境、WSL 环境或 SSH 至远程服务器的环境……）与各种环境里 Windows Terminal 的显示方案（比如字体、背景、色彩方案等）。 配色主题 schemes：一个配色方案列表，其中包含有 Windows Terminal 在上一项「环境入口」中可以调用的「色彩主题」。 快捷键绑定 keybindings：自定义快捷键。  具体的每一种属性相关的信息，在Github官方库的SettingsSchema.</description>
+    </item>
+    
+  </channel>
+</rss>
